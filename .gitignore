@@ -130,3 +130,4 @@ dmypy.json
 ffmpeg/*
 m.py
 .history/*
+.vscode

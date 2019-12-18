@@ -21,12 +21,10 @@ rule_files = ['./adscontent/easylist-thailand.txt',]
 #     with open(rule_file, 'w') as f:
 #         print(r.text, file=f)
 
-def removeAds(url):
-    remover = adremove.AdRemover(*rule_files)
-
+def removeAds(url,ads):
+    remover = adremove.AdRemover(*[ads])
     html = requests.get(url).text
     document = lxml.html.document_fromstring(html)
     remover.remove_ads(document)
     clean_html = tostring(document).decode("utf-8")
     return clean_html
-    #print(clean_html)
