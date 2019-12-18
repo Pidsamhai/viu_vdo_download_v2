@@ -129,3 +129,4 @@ dmypy.json
 # Filename patterns to ignore #custom file
 ffmpeg/*
 m.py
+.history/*
