@@ -6,6 +6,7 @@ import os,ctypes
 from movie_model import Episode
 from subprocess import Popen, CREATE_NEW_CONSOLE
 import adremove
+import debug
 from static_string import _VIU_BASE_URL
 import historyManager as history
 import movie_event as mv
@@ -15,6 +16,9 @@ def main():
     while(True):
         os.system("cls")
         tprint("VIU    VDO    DOWNLOAD")
+        print("     Version {}".format(debug.version()))
+        print("     Build Date {}".format(debug.buildDate()))
+        print("     License {}\n".format(debug.copyRight()))
         c = input('Select from history [h] , Input new url [u] : ')
         if(c.lower() == 'h' or c.lower() == 'H'):
 
