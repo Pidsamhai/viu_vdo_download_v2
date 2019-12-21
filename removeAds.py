@@ -5,7 +5,7 @@ import requests
 # take AdRemover code from here:
 # https://github.com/buriy/python-readability/issues/43#issuecomment-321174825
 # from adremover import AdRemover
-from lib import adremove
+import adremove as adremove
 
 rule_urls = ['https://raw.githubusercontent.com/easylist-thailand/easylist-thailand/master/subscription/easylist-thailand.txt']
 

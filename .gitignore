@@ -131,3 +131,6 @@ ffmpeg/*
 m.py
 .history/*
 .vscode
+vdo/*
+subtitle/*
+output/*

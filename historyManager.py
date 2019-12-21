@@ -1,13 +1,12 @@
 import sqlite3 as sqlite
 import os
-from lib import debug
-from lib import movie_model as md
+from art import tprint
+import debug as debug
+from movie_model import MovieHistory
 
-_DATABASE_NAME = "movie_history"
-_DATABASE_FILE_NAME = "movie.db"
-_DATABASE_PATH = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..',
-                 ".history/{}".format(_DATABASE_FILE_NAME)))
+from static_string import _DATABASE_FILE_NAME,_DATABASE_NAME,_DATABASE_PATH
+
+
 _DEBUG = debug.debug()
 
 # intitial database
@@ -35,7 +34,8 @@ def getInstance():
 
 
 def show():
-    print("HISTORY : \n")
+    os.system("cls")
+    tprint("History     Select")
     conn = sqlite.connect(_DATABASE_PATH)
     c = conn.cursor()
     #print(list(c.execute("SELECT * FROM {}".format(_DATABASE_NAME))))
@@ -44,17 +44,16 @@ def show():
          print("[{0}] {1}".format(index,k[1]))
          name = k[1]
          url = k[2]
-         m = md.MovieHistory(name=name,url=url)
+         m = MovieHistory(name=name,url=url)
          movie_histry.append(m)
     conn.close()
     print("\n")
-    return movie_histry
-    
-
+    return movie_histry if len(movie_histry) > 0 else False
 
 # return boolean
 # param string Movie name & url
 def checkHistory(movieName):
+    print("Check movie in history ...\n")
     sql = "SELECT * FROM {0} WHERE name = '{1}'".format(
         _DATABASE_NAME, movieName)
     conn = sqlite.connect(_DATABASE_PATH)
@@ -81,8 +80,10 @@ def addNewHistory(moviename, url):
         conn.cursor().execute(sql)
         conn.commit()
         conn.close()
+        print("Added {} to history\n".format(moviename))
     else:
-        debug("NO")
+        print("Cancel ...\n")
+        #debug("NO")
 
 
 def debug(any):
