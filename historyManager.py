@@ -44,7 +44,11 @@ def show():
          print("[{0}] {1}".format(index,k[1]))
          name = k[1]
          url = k[2]
-         m = MovieHistory(name=name,url=url)
+         pk = k[0]
+         m = MovieHistory()
+         m.name = name
+         m.url = url
+         m.primarykey = pk
          movie_histry.append(m)
     conn.close()
     print("\n")
@@ -83,8 +87,83 @@ def addNewHistory(moviename, url):
         print("Added {} to history\n".format(moviename))
     else:
         print("Cancel ...\n")
+        debug("NO")
+
+def upDateHistory(moviename, url,oldname,pk):
+    c = input("You want to update {} to {} [y/n] : ".format(oldname,moviename))
+    if (c.lower() == 'yes' or c.lower() == 'y'):
+        sql = "UPDATE {table} SET name = '{name}',url = '{url}' WHERE id = '{pk}'".format(
+            table=_DATABASE_NAME, name=moviename, url=url,pk=pk)
+        debug(sql)
+        conn = sqlite.connect(_DATABASE_PATH)
+        conn.cursor().execute(sql)
+        conn.commit()
+        conn.close()
+        print("Update {} to history\n".format(moviename))
+    else:
+        print("Cancel ...\n")
         #debug("NO")
 
+def deleteHistory(moviename,moviename_pk):
+    c = input("You want to detele {} from history [y/n] : ".format(moviename))
+    if (c.lower() == 'yes' or c.lower() == 'y'):
+        sql = "DELETE FROM {table}  WHERE id = '{id}'".format(
+            table=_DATABASE_NAME, id=moviename_pk)
+        debug(sql)
+        conn = sqlite.connect(_DATABASE_PATH)
+        conn.cursor().execute(sql)
+        conn.commit()
+        conn.close()
+        print("Delete {} from history\n".format(moviename))
+    else:
+        print("Cancel ...\n")
+        #debug("NO")
+
+
+def selectHistory(m:list):
+    i = ''
+    while True:
+        try:
+            i = int(input("Select movie [number] [Enter (0) to Main menu]: "))
+        except ValueError:
+            continue
+        if i >= 0 and i <= len(m):
+            break
+    return m[i - 1] if i != 0 else False
+
+def edit_submenu(e:MovieHistory):
+    os.system("cls")
+    print(e.name+"\n")
+    print("[e] Edit")
+    print("[d] Delete")
+    print("[E] Exit")
+    c = input(": ")
+    if(c == "E"): 
+        return
+    if(c.lower() == "e"):
+        name = input("Enter name [default  {}] : ".format(e.name))
+        if(name == None or name == ''):
+            name = e.name
+        print(name)
+        url = input("Enter url [default  {}] : ".format(e.url))
+        if(url == None or url == ''):
+            url = e.url
+        upDateHistory(name,url,e.name,e.primarykey)
+    if(c.lower() == "d"):
+        deleteHistory(e.name,e.primarykey)
+
+
+def editmenu():
+    while(True):
+        os.system('cls')
+        tprint("History Editter")
+        m = show()
+        if(m != False):
+            h = selectHistory(m)
+            if(h != False):
+                edit_submenu(h)
+            else:
+                break
 
 def debug(any):
     if _DEBUG:

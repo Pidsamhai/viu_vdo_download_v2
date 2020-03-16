@@ -7,10 +7,11 @@ import requests as rs
 from subprocess import Popen, CREATE_NEW_CONSOLE, CREATE_NEW_PROCESS_GROUP
 import subprocess
 import os
+from movie_model import MovieHistory
 from art import tprint
 
 
-def selectHistory(m=""):
+def selectHistory(m:list):
     i = ''
     while True:
         try:
@@ -19,7 +20,7 @@ def selectHistory(m=""):
             continue
         if i >= 0 and i <= len(m):
             break
-    return (m[i - 1].name, m[i - 1].url) if i != 0 else (False, False)
+    return m[i - 1] if i != 0 else False
 
 
 def selectEpisode(e=""):
@@ -32,14 +33,14 @@ def selectEpisode(e=""):
             continue
         if (i >= 0 and i <= len(e)):
             break
-    return (e[i - 1].name, e[i - 1].url) if i != 0 else (False, False)
+    return e[i - 1] if i != 0 else False
 
 
-def fetchMovieAllEp(name = "", url=""):
+def fetchMovieAllEp(name,h:MovieHistory):
     print("\n")
     episode = []
     try:     
-        html = ads.removeAds(url, _ADS_BLOCK_PATH)
+        html = ads.removeAds(h.url, _ADS_BLOCK_PATH)
     except Exception:
         input("Url Error ........")
         return None, None
@@ -155,8 +156,7 @@ def showDlmenu(m: Movie):
             for i, j in enumerate(m.subtitle, start=1):
                 print(i, j[0])
             print("{} Down load all".format(len(m.subtitle) + 1))
-        if(c == 4):
-            break
+            print("{} Exit to download menu".format(0))
             idx = ''
             while True:
                 try:
@@ -174,7 +174,8 @@ def showDlmenu(m: Movie):
                    dlSub(
                     url= m.subtitle[i - 1][1],file_name= m.epName,lang= m.subtitle[i - 1][0],
                     extension= "srt" if m.subtitle[i - 1][0].find('vtt') != -1 else "vtt")
-
+        if(c == 4):
+            break
 
 def parsheUrl(url):
     url = url.replace("/", "%2F")

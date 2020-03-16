@@ -2,9 +2,10 @@ from dataclasses import dataclass
 
 @dataclass
 class MovieHistory:
-    def __init__(self,name:str = "",url:str = ""):
+    def __init__(self,name:str = "",url:str = "",primarykey=""):
         self.name = name
         self.url = url
+        self.primarykey = primarykey
 
 @dataclass
 class Episode:

@@ -134,3 +134,7 @@ m.py
 vdo/*
 subtitle/*
 output/*
+test*.py
+dummy*.py
+Scripts
+.env
