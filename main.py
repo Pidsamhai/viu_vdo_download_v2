@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import time
+from time import sleep
 from art import tprint
 from bs4 import BeautifulSoup as bs
 import requests as rs
@@ -11,7 +13,8 @@ from movie_model import MovieHistory
 from static_string import _VIU_BASE_URL
 import historyManager as history
 import movie_event as mv
-from time import sleep
+
+_time = 0
 
 def mainmenu():
     print('     ##### MENU #####\n')
@@ -30,6 +33,8 @@ def main():
 
         # init menu
         mainmenu()
+
+        print('     open time %.2f' (time.time() - _time))
 
         c = input('     : ')
 
@@ -84,10 +89,11 @@ def main():
 
 
 if __name__ == "__main__":
-    import check_content_file 
+    _time = time.time()
+    from check_content_file import CheckFileContent as chk
     stat = True
     while stat:
-        stat = check_content_file.check_file()
+        stat = chk().check_file()
     main()
     os.system('cls')
     tprint('GOOD  BYE')

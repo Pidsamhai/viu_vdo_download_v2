@@ -2,7 +2,7 @@ import removeAds as ads
 from bs4 import BeautifulSoup as bs
 from movie_model import Episode, Movie
 import debug as de
-from static_string import _ADS_BLOCK_PATH, _LANG, _LANG_E, _VDO_PATH, _SUBTITLE_PATH, _GRAB_VDO_BASE_URL, _FFMPEG_PATH
+from static_string import _ADS_BLOCK_PATH, _LANG, _LANG_E, _VDO_PATH, _SUBTITLE_PATH, _GRAB_VDO_BASE_URL, _FFMPEG_PATH, _BASE_FFMPEG_URL
 import requests as rs
 from subprocess import Popen, CREATE_NEW_CONSOLE, CREATE_NEW_PROCESS_GROUP
 import subprocess
@@ -81,8 +81,8 @@ def getEpisodeInfo(name, url):
             for td in tr.find_all('td'):
                 if (td.text == 'ffmpeg code'):  #get FFmpeg code
                     print("GET ffmpeg...", end="\r")
-                    ffmpeg_url = td.find('a')
-                    ffmpeg_html = ads.removeAds(ffmpeg_url['href'],
+                    ffmpeg_url = td.find('a')['href']
+                    ffmpeg_html = ads.removeAds(_BASE_FFMPEG_URL + ffmpeg_url,
                                                 _ADS_BLOCK_PATH)
                     ff = bs(ffmpeg_html, "html.parser")
                     ffmpeg_dl_url = ff.find('code').text
@@ -139,7 +139,7 @@ def showDlmenu(m: Movie):
         print("1 Download Vdo only")
         print("2 Download Subtitle only")
         print("3 Download Vdo and Subtitle")
-        print("4 Exit To Episode Select")
+        print("[0] Exit To Episode Select")
         c = ''
         while True:
             try:
@@ -174,7 +174,7 @@ def showDlmenu(m: Movie):
                    dlSub(
                     url= m.subtitle[i - 1][1],file_name= m.epName,lang= m.subtitle[i - 1][0],
                     extension= "srt" if m.subtitle[i - 1][0].find('vtt') != -1 else "vtt")
-        if(c == 4):
+        if(c == 0):
             break
 
 def parsheUrl(url):

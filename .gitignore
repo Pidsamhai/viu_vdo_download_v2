@@ -135,6 +135,7 @@ vdo/*
 subtitle/*
 output/*
 test*.py
-dummy*.py
+dummy*.*
 Scripts
 .env
+.content
