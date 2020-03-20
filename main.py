@@ -34,7 +34,7 @@ def main():
         # init menu
         mainmenu()
 
-        print('     open time %.2f' (time.time() - _time))
+        print("     open time {:.2f}".format(time.time() - _time))
 
         c = input('     : ')
 

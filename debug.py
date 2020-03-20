@@ -1,8 +1,8 @@
 def version():
-    return "2.1 STABLE"
+    return "v2.3-STABLE"
 
 def buildDate():
-    return "Thursday  26 / 12 / 2019"
+    return "Friday  20 / 03 / 2020"
 
 def copyRight():
     return "Copyright (c) 2019 Pidsamhai"
