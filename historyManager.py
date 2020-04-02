@@ -57,18 +57,20 @@ def show():
 # return boolean
 # param string Movie name & url
 def checkHistory(movieName):
-    print("Check movie in history ...\n")
-    sql = "SELECT * FROM {0} WHERE name = '{1}'".format(
-        _DATABASE_NAME, movieName)
-    conn = sqlite.connect(_DATABASE_PATH)
-    c = conn.cursor()
-    if len(c.execute(sql).fetchall()) == 0:
-        conn.close()
-        return False
-    else:
-        conn.close()
-        return True
-
+    try:
+        print("Check movie in history ...\n")
+        sql = "SELECT * FROM {0} WHERE name = '{1}'".format(
+            _DATABASE_NAME, movieName)
+        conn = sqlite.connect(_DATABASE_PATH)
+        c = conn.cursor()
+        if len(c.execute(sql).fetchall()) == 0:
+            conn.close()
+            return False
+        else:
+            conn.close()
+            return True
+    except Exception as e:
+        getInstance()
 
 # return boolean
 # param string Movie name & url
